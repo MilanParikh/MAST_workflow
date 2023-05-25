@@ -74,13 +74,13 @@ task generate_model {
         sca <- sca[freq(sca)>0.1,]
 
         cdr2 <- colSums(assay(sca)>0)
-        colData(sca)$ngeneson <- scale(cdr2)
+        SummarizedExperiment::colData(sca)$ngeneson <- scale(cdr2)
 
         sampledata <- factor(colData(sca)$~{sample_col})
-        colData(sca)$sampledata <- sampledata
+        SummarizedExperiment::colData(sca)$sampledata <- sampledata
 
         celltype <- factor(colData(sca)$~{celltype_col})
-        colData(sca)$celltype <- celltype
+        SummarizedExperiment::colData(sca)$celltype <- celltype
 
         zlmCond <- zlm(formula = ~ngeneson + celltype + (1 | sampledata), 
                sca=sca, 
@@ -135,7 +135,6 @@ task summarize_condition {
         R --no-save << CODE
         library(zellkonverter)
         library(MAST)
-        library(SingleCellExperiment)
 
         summaryCond <- summary(zlmCond, doLRT='celltype~{celltype}')
         summaryDt <- summaryCond$datatable
