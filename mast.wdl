@@ -64,7 +64,6 @@ task generate_model {
         R << CODE
         library(zellkonverter)
         library(MAST)
-        library(SingleCellExperiment)
 
         sce <- readH5AD("~{anndata_file}")
         sca <- SceToSingleCellAssay(sce, class = "SingleCellAssay")
