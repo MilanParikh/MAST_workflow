@@ -9,7 +9,7 @@ workflow mast {
         #general parameters
         Int cpu = 16
         String memory = "64G"
-        String docker = "mparikhbroad/mast:latest"
+        String docker = "mparikhbroad/mast_workflow:latest"
         Int preemptible = 2
     }
 
