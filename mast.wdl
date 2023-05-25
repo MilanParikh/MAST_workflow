@@ -132,7 +132,7 @@ task summarize_condition {
     command {
         set -e
 
-        R << CODE
+        R --no-save << CODE
         library(zellkonverter)
         library(MAST)
         library(SingleCellExperiment)
