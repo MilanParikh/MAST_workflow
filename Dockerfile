@@ -19,3 +19,4 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
 
 RUN R -e 'BiocManager::install(c("zellkonverter", "MAST"))'
 RUN R -e 'library(zellkonverter); envproc <- basilisk::basiliskStart(zellkonverterAnnDataEnv()); basilisk::basiliskStop(envproc)'
+RUN R -e 'install.packages(c("lme4"))'

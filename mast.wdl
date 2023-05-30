@@ -131,16 +131,17 @@ task summarize_condition {
         set -e
 
         R --no-save << CODE
-        library(zellkonverter)
         library(MAST)
+
+        zlmCond <- readRDS('~{zlmCond_file}')
 
         summaryCond <- summary(zlmCond, doLRT='celltype~{celltype}')
         summaryDt <- summaryCond\$datatable
-        result <- merge(summaryDt[contrast=='celltype~{celltype}' & component=='H',.(primerid, `Pr(>Chisq)`)],
+        result <- merge(summaryDt[contrast=='celltype~{celltype}' & component=='H',.(primerid, `Pr(\>Chisq)`)],
                         summaryDt[contrast=='celltype~{celltype}' & component=='logFC', .(primerid, coef)],
                         by='primerid') # logFC coefficients
         result[,coef:=result[,coef]/log(2)]
-        result[,FDR:=p.adjust(`Pr(>Chisq)`, 'fdr')]
+        result[,FDR:=p.adjust(`Pr(\>Chisq)`, 'fdr')]
         result = result[result\$FDR<0.01,, drop=F]
 
         result <- stats::na.omit(as.data.frame(result))
