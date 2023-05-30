@@ -58,13 +58,12 @@ task generate_model {
         Int preemptible
     }
 
-    command {
+    command <<<
         set -e
 
         R << CODE
         library(zellkonverter)
         library(MAST)
-        library(SummarizedExperiment)
 
         sce <- readH5AD("~{anndata_file}")
         sca <- SceToSingleCellAssay(sce, class = "SingleCellAssay")
@@ -74,13 +73,13 @@ task generate_model {
         sca <- sca[freq(sca)>0.1,]
 
         cdr2 <- colSums(assay(sca)>0)
-        SummarizedExperiment::colData(sca)$ngeneson <- scale(cdr2)
+        colData(sca)$ngeneson <- scale(cdr2)
 
-        sampledata <- factor(colData(sca)$~{sample_col})
-        SummarizedExperiment::colData(sca)$sampledata <- sampledata
+        sampledata <- factor(colData(sca)\$~{sample_col})
+        colData(sca)$sampledata <- sampledata
 
-        celltype <- factor(colData(sca)$~{celltype_col})
-        SummarizedExperiment::colData(sca)$celltype <- celltype
+        celltype <- factor(colData(sca)\$~{celltype_col})
+        colData(sca)$celltype <- celltype
 
         zlmCond <- zlm(formula = ~ngeneson + celltype + (1 | sampledata), 
                sca=sca, 
@@ -94,12 +93,11 @@ task generate_model {
         fileConn<-file("celltypes.txt")
         writeLines(levels(celltype), fileConn)
         close(fileConn)
+        CODE
 
         gsutil -m cp zlmCond.Rds ~{output_dir}/
-
-        CODE
         
-    }
+    >>>
 
     output {
         File zlmCond_file = "zlmCond.Rds"
