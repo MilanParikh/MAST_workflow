@@ -76,10 +76,10 @@ task generate_model {
         colData(sca)\$ngeneson <- scale(cdr2)
 
         sampledata <- factor(colData(sca)\$~{sample_col})
-        colData(sca)$sampledata <- sampledata
+        colData(sca)\$sampledata <- sampledata
 
         celltype <- factor(colData(sca)\$~{celltype_col})
-        colData(sca)$celltype <- celltype
+        colData(sca)\$celltype <- celltype
 
         zlmCond <- zlm(formula = ~ngeneson + celltype + (1 | sampledata), 
                sca=sca, 
