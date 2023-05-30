@@ -149,10 +149,10 @@ task summarize_condition {
         saveRDS(summaryCond, '~{celltype}_summaryCond.Rds')
         write.csv(result, "~{celltype}.csv")
 
+        CODE
+
         gsutil -m cp ~{celltype}_summaryCond.Rds ~{output_dir}/
         gsutil -m cp ~{celltype}.csv ~{output_dir}/
-
-        CODE
         
     }
 
