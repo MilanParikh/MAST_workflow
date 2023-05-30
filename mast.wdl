@@ -73,7 +73,7 @@ task generate_model {
         sca <- sca[freq(sca)>0.1,]
 
         cdr2 <- colSums(assay(sca)>0)
-        colData(sca)$ngeneson <- scale(cdr2)
+        colData(sca)\$ngeneson <- scale(cdr2)
 
         sampledata <- factor(colData(sca)\$~{sample_col})
         colData(sca)$sampledata <- sampledata
