@@ -123,7 +123,7 @@ task run_celltype_MAST {
         library(Seurat)
 
         seuratobj <- readRDS('~{seurat_rds}')
-        markers <- FindAllMarkers(seuratobj, ident.1 = '~{celltype}', test.use="MAST")
+        markers <- FindMarkers(seuratobj, ident.1 = '~{celltype}', test.use="MAST")
         write.csv(markers, '~{celltype}_markers.csv')
         CODE
 
